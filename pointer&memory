@@ -1,8 +1,19 @@
 Table 1-1. Scope and lifetime
 
                         Scope                                       Lifetime
-Global               The entire file                         The lifetime of the application
-Static               The function it is declared within      The lifetime of the application
-Automatic(local)     The function it is declared within      While the function is executing
-Dynamic              Determined by the pointers that         Until the memory is freed
-                        reference this memory
+
+Global The entire file The lifetime of the application
+Static The function it is declared within The lifetime of the application
+Automatic(local) The function it is declared within While the function is executing
+Dynamic Determined by the pointers that Until the memory is freed
+reference this memory
+
+How to Read a Declaration
+
+The trick is to read them backward
+
+const int \*pci;
+
+Reading the declaration backward allows us to progressively understand the declaration
+
+const int \*pci; == pci is a pointer varible to constant integer
