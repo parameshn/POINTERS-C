@@ -1,0 +1,46 @@
+Table 1-1. Scope and lifetime
+
+                        Scope                                       Lifetime
+
+Global The entire file The lifetime of the application
+Static The function it is declared within The lifetime of the application
+Automatic(local) The function it is declared within While the function is executing
+Dynamic Determined by the pointers that Until the memory is freed
+reference this memory
+
+How to Read a Declaration
+
+The trick is to read them backward
+
+const int *pci;
+
+Reading the declaration backward allows us to progressively understand the declaration
+
+const int *pci; == pci is a pointer varible to constant integer
+
+
+Certainly, I can explain further. Let's break down the components:
+
+1. **Type Cast**: `(void *)` is a type cast in C and C++. It's a way of explicitly specifying the type of an expression. In this case, it's used to specify the type of the literal `0` as a `void*` pointer.
+
+2. **Literal 0**: The literal `0` represents the integer value zero. When used in the context of a pointer, it's commonly interpreted as a null pointer, which means it doesn't point to any valid memory location. It's essentially a placeholder for an uninitialized or invalid pointer.
+
+3. **`void*`**: `void*` is a generic pointer type in C and C++. It's used to indicate that the pointer can point to data of any type. You can think of it as a way to store an address without specifying what type of data is located at that address. Because it can point to any type, it's often used for functions or data structures that need to work with pointers to unknown types or for storing a null pointer, as in your example.
+
+So, the expression `((void *)0)` is casting the integer literal `0` as a null pointer of type `void*`. This is a common way to represent and work with null pointers in C and C++ to indicate that a pointer doesn't currently point to any valid memory location.
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+The reason why `pi = &num;` is correct, while `pi = num;` is not, has to do with how pointers work in C and C++.
+
+In the line `pi = &num;`, you are assigning the address of the variable `num` to the pointer `pi`. This means that `pi` now "points to" or holds the memory address where the integer variable `num` is stored. This is the correct way to make `pi` point to `num`.
+
+On the other hand, in the line `pi = num;`, you are attempting to assign the value of `num` to the pointer `pi`. This is incorrect because `pi` is a pointer, and it should be assigned an address (memory location), not a value. If you try to assign the value of `num` to `pi`, it will not work as expected, and it may lead to errors or unexpected behavior because `pi` should hold an address, not an integer value.
+
+So, to summarize:
+
+- `pi = &num;` is the correct way to make the pointer `pi` point to the integer variable `num` by storing the memory address of `num` in `pi`.
+- `pi = num;` is not correct because it attempts to assign an integer value to a pointer, which is not how pointers are meant to be used.
