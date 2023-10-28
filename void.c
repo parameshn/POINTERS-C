@@ -24,4 +24,35 @@ main()
 
     intptr_t *pi = &num;
     uintptr_t *pu = (uintptr_t *)&num;
+
+    int vector[] = {12, 21, 33};
+    int *pa = &vector;
+
+    printf("%d\n", *pa);
+
+    pa += 1;
+    printf("%d\n", *pa);
+    pa += 1;
+    printf("%d\n", *pa);
+
+    pi = vector + 2;
+    printf("%d\n", *pa);
+
+    pi = vector;
+    pi += 3;
+    printf("%d\n", *pa);
+
+    short s;
+    short *ps = &s;
+
+    char c;
+    char *pc = &c;
+
+    printf("content of the ps before : %d\n", ps);
+    ps = ps + 1;
+    printf("content of the ps after: %d\n", ps);
+
+    printf("Content of pc before: %d\n", pc);
+    pc = pc + 1;
+    printf("Content of pc after: %d\n", pc);
 }
