@@ -55,4 +55,10 @@ main()
     printf("Content of pc before: %d\n", pc);
     pc = pc + 1;
     printf("Content of pc after: %d\n", pc);
+
+    void *pm = &num;
+
+    printf("pm = %d\n",pm);
+    pm += 1;
+    printf("pm = %d\n",pm);
 }
