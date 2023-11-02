@@ -9,6 +9,7 @@ data structures using a variable number of elements, such as a linked list or a 
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 main()
 {
     /*While there are some minor variations to this approach, this is the most common tech‐
@@ -23,4 +24,15 @@ released using the free function:
     free(pi);
 
     // When this sequence is executed, it will display the number 5.
+
+    /*The malloc function single argument specifies the number of bytes to allocate. If suc‐
+cessful, it returns a pointer to memory allocated from the heap. If it fails, it returns a
+null pointer*/
+
+    *pi = (int *)malloc(4);
+    *pi = 6;
+    printf("*pi: %d\n", *pi);
+    /*However, the size of an integer can vary, depending on the memory model used. A
+portable approach is to use the sizeof operator. This will return the correct size re‐
+gardless of where the program is executing.*/
 }
