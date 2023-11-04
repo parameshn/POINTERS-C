@@ -65,5 +65,91 @@ function allocates heap memory, and the free() function deallocates heap memory.
 
 Be sure to include the stdlib.h header file in all the programs you write that use
 malloc() and free().
-
 */
+
+/*We might as well get to the rough part. malloc() is not the most user-friendly function for
+newcomers to understand. Perhaps looking at an example of malloc() is the best place to start.
+Suppose you were writing a temperature-averaging program for a local weather forecaster. The more
+temperature readings the user enters, the more accurate the correct prediction will be. You decide that
+you will allocate 10 integers to hold the first 10 temperature readings. If the user wants to enter more,
+your program can allocate another batch of 10, and so on.
+You first need a pointer to the 10 heap values. The values are integers, so you need an integer pointer.
+You need to define the integer pointer like this:*/
+
+#include <stdlib.h>
+void main()
+{
+    int *temps; /* Will point to the first heap value */
+
+    // Here is how you can allocate 10 integers on the heap using malloc():
+    temps = (int *)malloc(10 * sizeof(int)); /* Yikes! */
+
+    /*That’s a lot of code just to get 10 integers. The line is actually fairly easy to understand when you see
+it broken into pieces. The malloc() function requires only a single value: the number of bytes you
+want allocated. Therefore, if you wanted 10 bytes, you could do this:*/
+
+    malloc(10);
+
+    /*The problem is that the previous description required not 10 bytes, but 10 integers. How many bytes
+of memory do 10 integers require? 10? 20? The answer, of course, is that it depends. Only
+sizeof() knows for sure.
+Therefore, if you want 10 integers allocated, you must tell malloc() that you want 10 sets of bytes
+allocated, with each set of bytes being enough for an integer. Therefore, the previous line included the
+following malloc() function call:*/
+
+    malloc(10 * sizeof(int));
+
+    /*This part of the statement told malloc() to allocate, or set aside, 10 contiguous integer locations on
+the heap. In a way, the computer puts a fence around those 10 integer locations so that subsequent
+malloc() calls do not intrude on this allocated memory. Now that you’ve mastered that last half of
+the malloc() statement, there’s not much left to understand. The first part of malloc() is fairly
+easy.
+malloc() always performs the following two steps (assuming that enough heap memory exists to
+satisfy your allocation request):
+1. Allocates the number of bytes you request and makes sure no other program can overwrite that
+memory until your program frees it
+2. Assigns your pointer to the first allocated value*
+
+
+the heap of memory (shown here as just that, a heap) now contains a fenced-off area
+of 10 integers, and the integer pointer variable named temps points to the first integer. Subsequent
+malloc() function calls will go to other parts of the heap and will not tread on the allocated 10
+integers.
+
+What do you do with the 10 integers you just allocated? Treat them like an array! You can store data
+by referring to temps[0], temps[1], and so on. You know from the last chapter that you access
+contiguous memory using array notation, even if that memory begins with a pointer. Also remember
+that each set of allocated memory will be contiguous, so the 10 integers will follow each other just as
+if you allocated temps as a 10-integer array.
+*/
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*The (int *) is a typecast. You’ve seen other kinds of typecasts in this book. To convert a float
+    value to an int, you place (int) before the floating-point value, like this:*/
+    float salary;
+    int aVal = (int)salary;
+
+    /*The * inside a typecast means that the typecast is a pointer typecast. malloc() always returns a
+character pointer. If you want to use malloc() to allocate integers, floating points, or any kind of
+data other than char, you have to typecast the malloc() so that the pointer variable that receives
+the allocation (such as temps) receives the correct pointer data type. temps is an integer pointer;
+you should not assign temps to malloc()’s allocated memory unless you typecast malloc()
+into an integer pointer. Therefore, the left side of the previous malloc() simply tells malloc()
+that an integer pointer, not the default character pointer, will point to the first of the allocated values.*/
+
+    /*Besides defining an array at the top of main(), what have you gained by using
+    malloc()? For one thing, you can use the malloc() function anywhere in your
+    program, not just where you define variables and arrays. Therefore, when your
+    program is ready for 100 double values, you can allocate those 100 double values.
+    If you used a regular array, you would need a statement like this toward the top of
+    main():*/
+
+    double doublemyVals[100]; /* A regular array of 100 doubles */
+
+    /*Those 100 double values would sit around for the life of the program, taking up
+memory resources from the rest of the system, even if the program only needed the 100
+double values for only a short time. With malloc(), you need to define only the
+pointer that points to the top of the allocated memory for the program’s life, not the
+entire array.*/
+}
