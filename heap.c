@@ -177,4 +177,49 @@ and the error prints onscreen.*/
     // Programmers often use the not operator, !,
     if (!temps)
         ; /* Means, if not true */
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Freeing Heap Memory
+
+    /*When you’re done with the heap memory, give it back to the system. Use free() to do that.
+    free() is a lot easier than malloc(). To free the 10 integers allocated with the previous
+    malloc(), use free() in the following manner:
+    */
+
+    int *temps;
+    free(temps); /* Gives the memory back to the heap */
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*Multiple Allocations*/
+
+    /*An array of pointers often helps you allocate many different sets of heap memory. Going back to the
+weather forecaster’s problem, suppose the forecaster wanted to enter historical temperature readings
+for several different cities. But the forecaster has a different number of readings for each different
+city.
+An array of pointers is useful for such a problem. Here is how you could allocate an array of 50
+pointers:*/
+
+    int *temps[50]; /* 50 integer pointers */
+
+    /*The array will not hold 50 integers (because of the dereferencing operator in the definition); instead,
+the array holds 50 pointers. The first pointer is called temps[0], the second pointer is temps[1],
+and so on. Each of the array elements (each pointer) can point to a different set of allocated heap
+memory. Therefore, even though the 50 pointer array elements must be defined for all of main(),
+you can allocate and free the data pointed to as you need extra memory.
+*/
+
+    /*Of course, such code requires massive data entry. The values would most likely come from a saved
+    file instead of from the user. Nevertheless, the code gives you insight into the advanced data
+    structures available by using the heap. Also, real-world programs aren’t usually of the 20-line variety
+    you often see in this book. Real-world programs, although not necessarily harder than those here, are
+    usually many pages long. Throughout the program, some sections might need extra memory, whereas
+    other sections do not. The heap lets you use memory efficiently*/
+
+    /*As you can see, temps belongs to the
+    program’s data area, but the memory each temps element points to belongs to the heap. You can free
+    up the data temps points to when you no longer need the extra workspace.*/
+
+    // Each temps element points to a dif erent part of the heap.
 }
