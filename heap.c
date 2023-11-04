@@ -152,4 +152,29 @@ memory resources from the rest of the system, even if the program only needed th
 double values for only a short time. With malloc(), you need to define only the
 pointer that points to the top of the allocated memory for the program’s life, not the
 entire array.*/
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // If There’s Not Enough Heap Memory
+
+    /*In extreme cases, not enough heap memory might exist to satisfy malloc()’s request. The user’s
+computer might not have a lot of memory, another task might be using a lot of memory, or your
+program might have previously allocated everything already. If malloc() fails, its pointer variable
+points to a null value, 0. Therefore, many programmers follow a malloc() with an if, like this:
+*/
+
+    temps = (int *)malloc(10 * sizeof(int));
+    if (temps == 0)
+    {
+        printf("Oops! Not Enough Memory!\n");
+        exit(1); // Terminate the program early
+    }
+    // Rest of program would follow...
+
+    /*If malloc() works, temps contains a valid address that points to the start of the allocated heap. If
+malloc() fails, the invalid address of 0 is pointed to (heap memory never begins at address zero)
+and the error prints onscreen.*/
+
+    // Programmers often use the not operator, !,
+    if (!temps)
+        ; /* Means, if not true */
 }
