@@ -261,3 +261,37 @@ then it can maintain a list of these values and return the appropriate one. This
 useful if we are returning a status type message, such as an error number that is not
 likely to be modified. In the section “Returning Strings” on page 126, an example of using
 global and static values is demonstrated.*/
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*Passing Null Pointers
+
+
+In the following version of the allocateArray function, a pointer to an array is passed
+along with its size and a value that it will use to initialize each element of the array. The
+pointer is returned for convenience. Although this version of the function does not
+allocate memory, later versions will allocate memory:*/
+
+int *allocatArray(int *arr, int size, int value)
+{
+    if (arr != NULL)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            arr[i] = value;
+        }
+    }
+    return arr;
+}
+
+/*When a pointer is passed to a function, it is always good practice to verify it is not null
+before using it.
+The function can be invoked as follows*/
+
+main()
+{
+    int *vector = (int *)malloc(5 * sizeof(int));
+    allocatArray(vector, 5, 55);
+}
+/*If the pointer is NULL, then no action is performed and the program will execute
+without terminating abnormally.*/
