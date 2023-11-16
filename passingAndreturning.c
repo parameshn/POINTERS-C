@@ -133,3 +133,131 @@ syntax error:
 /*In this case, the error message will indicate that an lvalue is required as the address-of
 operator’s operand. The concept of an lvalue is discussed in “Dereferencing a Pointer
 Using the Indirection Operator” on page 11.*/
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*Returning a Pointer
+
+
+Returning a pointer is easy to do. We simply declare the return type to be a pointer to
+the appropriate data type. If we need to return an object from a function, the following
+two techniques are frequently used:
+• Allocate memory within the function using malloc and return its address. The
+caller is responsible for deallocating the memory returned
+
+• Pass an object to the function where it is modified. This makes the allocation and
+deallocation of the object’s memory the caller’s responsibility.
+
+First, we will illustrate the use of malloc type functions to allocate the memory returned.
+This is followed by an example where we return a pointer to a local object. This latter
+approach is not recommended. The approach identified in the second bullet is then
+illustrated in the section“Passing Null Pointers” on page 67.
+In the following example, we define a function that is passed the size of an integer array
+and a value to initialize each element. The function allocates memory for an integer
+array, initializes the array to the value passed, and then returns the array’s address:*/
+
+int *allocateArray(int size, int value)
+{
+    int *arr = (int *)malloc(size * sizeof(int));
+
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = value;
+    }
+    return arr;
+}
+
+// The following illustrates how this function can be used:
+
+main()
+{
+    int *vector = allocateArray(4, 45);
+    for (int i = 0; i < 5; i++)
+    {
+        printf("%d\n", vector[i]);
+    }
+}
+/*illustrates how memory is allocated for this function. The Before image
+shows the program’s state right before the return statement is executed. The After image
+shows the program’s state after the function has returned. The variable vector now
+contains the address of the memory allocated in the function. While the arr variable
+went away when the function terminated, the memory referenced by the pointer does
+not go away. This memory will eventually need to be freed.
+
+Although the previous example works correctly, several potential problems can occur
+when returning a pointer from a function, including:
+
+• Returning an uninitialized pointer
+• Returning a pointer to an invalid address
+• Returning a pointer to a local variable
+• Returning a pointer but failing to free it
+
+The last problem is typified by the allocateArray function. Returning dynamically
+allocated memory from the function means the function’s caller is responsible for deal‐
+locating it. Consider the following example:
+*/
+free(vector);
+
+// We must eventually free it once we are through using it. If we don’t, then we will have a memory leak.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Pointers to Local Data
+
+/*Returning a pointer to local data is an easy mistake to make if you don’t understand
+how the program stack works. In the following example, we rework the allocateAr
+ray function used in the section “Returning a Pointer” on page 64. Instead of dynami‐
+cally allocating memory for the array, we used a local array*/
+
+int *allocateArray(int size, int value)
+{
+    int array[size];
+
+    for (int i = 0; i < size; i++)
+    {
+        array[i] = value;
+    }
+    return array;
+}
+
+/*Unfortunately, the address of the array returned is no longer valid once the function
+returns because the function’s stack frame is popped off the stack. While each array
+element may still contain a 45, these values may be overwritten if another function is
+called. This is illustrated with the following sequence. Here, the printf function is
+invoked repeatedly, resulting in corruption of the array:
+*/
+main()
+{
+    int *vector = allocateArray(5, 55);
+    for (int i = 0; i < 5; i++)
+        printf("%d", vector[i]);
+}
+
+/*illustrates how memory is allocated when this happens. The dashed box
+shows where other stack frames, such as those used by the printf function, may be
+pushed onto the program stack, thus corrupting the memory held by the array. The
+actual contents of that stack frame are implementation-dependent.
+
+An alternative approach is to declare the arr variable as static. This will restrict the
+variable’s scope to the function but allocate it outside of the stack frame, eliminating the
+possibility of another function overwriting the variable’s value:
+*/
+int *allocateArray(int size, int value)
+{
+    static int array[5];
+
+    for (int i = 0; i < size; i++)
+    {
+        array[i] = value;
+    }
+    return array;
+}
+
+/*However, this will not always work. Every time the allocateArray function is called,
+it will reuse the array. This effectively invalidates any previous calls to the function. In
+addition, the static array must be declared with a fixed size. This will limit the function’s
+ability to handle various array sizes.
+If the function returns only a few possible values and it does not hurt to share them,
+then it can maintain a list of these values and return the appropriate one. This can be
+useful if we are returning a status type message, such as an error number that is not
+likely to be modified. In the section “Returning Strings” on page 126, an example of using
+global and static values is demonstrated.*/
