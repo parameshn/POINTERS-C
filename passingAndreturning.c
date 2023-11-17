@@ -295,3 +295,48 @@ main()
 }
 /*If the pointer is NULL, then no action is performed and the program will execute
 without terminating abnormally.*/
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*Passing a Pointer to a Pointer
+
+
+When a pointer is passed to a function, it is passed by value. If we want to modify the
+original pointer and not the copy of the pointer, we need to pass it as a pointer to a
+pointer. In the following example, a pointer to an integer array is passed, which will be
+assigned memory and initialized. The function will return the allocated memory back
+through the first parameter. In the function, we first allocate memory and then initialize
+it. The address of this allocated memory is intended to be assigned to a pointer to an
+int. To modify this pointer in the calling function, we need to pass the pointer’s address.
+Thus, the parameter is declared as a pointer to a pointer to an int. In the calling function,
+we need to pass the address of the pointer:*/
+
+void alloctArray(int **arr, int size, int value)
+{
+    *arr = (int *)malloc(size * sizeof(int));
+
+    for (int i = 0; i < size; i++)
+    {
+        *(*arr + i) = value;
+    }
+}
+// The function can be tested using the following code:
+main()
+{
+    int *vector = NULL;
+    alloctArray(&vector, 5, 55);
+}
+
+/**(*arr + i):
+
+*arr: Dereferences the pointer to a pointer (int**), giving you a pointer to an integer (int*). This points to the beginning of the dynamically allocated array.
+(*arr + i): Adds i to this pointer, effectively moving i positions forward in the array.
+*(*arr + i): Dereferences this new pointer, giving you the value at the i-th position in the array.*/
+
+/*The first parameter to allocateArray is passed as a pointer to a pointer to an integer.
+When we call the function, we need to pass a value of this type. This is done by passing
+the address of vector. The address returned by malloc is assigned to arr. Dereferencing
+a pointer to a pointer to an integer results in a pointer to an integer. Because this is the
+address of vector, we modify vector.
+The memory allocation is illustrated in Figure 3-7. The Before image shows the stack’s
+state after malloc returns and the array is initialized. Likewise, the After image shows
+the stack’s state after the function returns.*/
