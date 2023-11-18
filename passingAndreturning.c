@@ -332,6 +332,16 @@ main()
 (*arr + i): Adds i to this pointer, effectively moving i positions forward in the array.
 *(*arr + i): Dereferences this new pointer, giving you the value at the i-th position in the array.*/
 
+/*arr: In the main function, arr is the address of the vector pointer. It is a pointer to a pointer to an integer (int**). When you pass &vector to allocateArray, you are passing the address of the vector pointer.
+
+*arr: Inside the allocateArray function, *arr represents the value stored in the arr pointer. This value is the address of the dynamically allocated memory block, which is cast to int*. After the malloc call, *arr points to the beginning of the dynamically allocated array.
+
+So, in summary:
+
+arr points to the address of the vector pointer in the main function.
+*arr points to the dynamically allocated array after the malloc call in the allocateArray function.
+Note: It's crucial to free the dynamically allocated memory using free(vector) in the main function to avoid memory leaks.*/
+
 /*The first parameter to allocateArray is passed as a pointer to a pointer to an integer.
 When we call the function, we need to pass a value of this type. This is done by passing
 the address of vector. The address returned by malloc is assigned to arr. Dereferencing
@@ -340,3 +350,36 @@ address of vector, we modify vector.
 The memory allocation is illustrated in Figure 3-7. The Before image shows the stack’s
 state after malloc returns and the array is initialized. Likewise, the After image shows
 the stack’s state after the function returns.*/
+
+/*The following version of the function illustrates why passing a simple pointer will not
+work:*/
+
+void allocateArr(int *arr, int size, int value)
+{
+    arr = (int *)malloc(size * sizeof(int));
+    if (arr != NULL)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            arr[i] = value;
+        }
+    }
+}
+main()
+{
+    int *vector = NULL;
+    allocateArr(*vector, 2, 22);
+    printf("%p\n", vector);
+}
+
+/*When the program is executed you will see 0x0 displayed because when vector is passed
+to the function, its value is copied into the parameter arr. Modifying arr has no effect
+on vector. When the function returns, the value stored in arr is not copied to vec
+tor. Figure 3-8 illustrates the allocation of memory. The Before malloc image shows
+the state of memory just before arr is assigned a new value. It contains the value of 500,
+which was passed to it from vector. The After malloc image shows the state of memory
+after the malloc function was executed in the allocateArray function and the array
+was initialized. The variable arr has been modified to point to a new place in the heap.
+The After return image shows the program stack’s state after the function returns. In
+addition, we have a memory leak because we have lost access to the block of memory
+at address 600.*/
