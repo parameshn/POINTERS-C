@@ -63,6 +63,8 @@ address to a pointer as illustrated below:*/
     int vector[5] = {1, 2, 3, 4, 5};
     int *pv = vector;
     int i;
+    printf("%d\n%d \n%d\n%d \n", *(vector + 2), vector[2], *(pv + 2), pv[2]); // 3 3 3 3
+
     /*The variable pv is a pointer to the first element of the array and not the array itself. When
 we first assigned a value to pv, we assigned the address of the array’s first element*/
 
