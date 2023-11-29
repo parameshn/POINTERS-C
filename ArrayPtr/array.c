@@ -49,3 +49,63 @@ to describe the position of an array’s element. Arrays with three or more dime
 are not as common but can be quite useful in some applications. A two-dimensional
 array is not to be confused with an array of pointers. They are similar but behave slightly
 differently*/
+
+// Pointer Notation and Arrays
+
+/*Array notation and pointer notation can be used somewhat interchangeably.
+However, they are not exactly the same */
+#include <stdio.h>
+void main()
+{
+    /*When an array name is used by itself, the array’s address is returned. We can assign this
+address to a pointer as illustrated below:*/
+
+    int vector[5] = {1, 2, 3, 4, 5};
+    int *pv = vector;
+    int i;
+    /*The variable pv is a pointer to the first element of the array and not the array itself. When
+we first assigned a value to pv, we assigned the address of the array’s first element*/
+
+    /*We can use either the array name by itself or use the address-of operator with the array’s
+    first element as illustrated below. These are equivalent and will return the address of
+    vector. Using the address-of operator is more verbose but also more explicit:
+    */
+    printf("%p\n", vector);
+    printf("%p\n", &vector[0]);
+
+    // we can also use array subscripts with pointers effectively the notation pv[i] is evaluated as
+
+    *(pv + i);
+
+    /*The pointer pv contains the address of a block of memory. The bracket notation will
+take the address contained in pv and adds the value contained in the index i using
+pointer arithmetic. This new address is then dereferenced to return its contents.*/
+
+    /* adding an integer to a
+    pointer will increment the address it holds by the product of the integer and the data
+    type’s size. The same is true if we add an integer to the name of an array. The following
+    two statements are equivalent:*/
+
+    *(pv + i);
+    *(vector + i);
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////shift and dereference
+
+    /*When we add 1 to the array address we effectively add 4, the size of an integer, to the
+address since this is an array of integers. With the first and last operations, we addressed
+locations outside the array’s bounds. While this is not a good practice, it does emphasize
+the need to be careful when using indexes or pointers to access elements of an array.
+Array notation can be thought of as a “shift and dereference” operation. The expression
+vector[2] means start with vector, which is a pointer to the beginning of the array, shift
+two positions to the right, and then dereference that location to fetch its value. Using
+the address-of operator in conjunction with array notation, as in &vector[2], essentially
+cancels out the dereferencing. It can be interpreted as go left two positions and then
+return that address.*/
+
+    // This operation takes a value and multiplies it against each element of the vector:
+    pv = vector;
+    int value = 3;
+    for (int i = 0; i < 5; i++)
+    {
+        *pv++ *= value;
+    }
+}
